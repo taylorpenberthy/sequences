@@ -1,0 +1,18 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    z-index: 999;
+    height: auto;
+    background-color: white;
+    border: 1px solid white;
+}
+
+.innerModal {
+    color: darkblue;
+}
+
+.sequence {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

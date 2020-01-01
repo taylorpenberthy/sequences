@@ -1,0 +1,21 @@
+
+
+label {
+    text-align: left;
+
+}
+
+input {
+    padding-right: 40px;
+   
+    text-align: left;
+   
+}
+
+.form {
+    margin-right: 30%;
+    margin-left: 30%;
+    background-color: rgba(23, 2, 99, 0.301);
+    color: white;
+
+}
