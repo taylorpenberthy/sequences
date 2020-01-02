@@ -6,6 +6,7 @@ import AddSequence from './AddSequence/AddSequence'
 import Sequences from './Sequences/Sequences'
 import MySequences from './MySequences/MySequences'
 import SeqLogo from './SeqLogo1.png'
+import * as config from './config.js' 
 export default class App extends Component {
   constructor(props) {
     super(props)

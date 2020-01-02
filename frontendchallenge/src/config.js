@@ -1,0 +1,1 @@
+export default URL = 'https://sequencebackend.herokuapp.com/'

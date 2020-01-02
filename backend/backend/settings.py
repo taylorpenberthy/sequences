@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-ALLOWED_HOSTS = ['*', 'http://sequencebackend.herokuapp.com']
+ALLOWED_HOSTS = ['*', 'sequencebackend.herokuapp.com']
 
 DATABASES = {
     'default': {
