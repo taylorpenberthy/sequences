@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import { useSpring, animated } from 'react-spring/web.cjs';
-
+import './App.css'
 const useStyles = makeStyles(theme => ({
     modal: {
       display: 'flex',
@@ -53,9 +53,25 @@ const useStyles = makeStyles(theme => ({
     onEnter: PropTypes.func,
     onExited: PropTypes.func,
   };
+
+const prettyDNA = (dna) => {
+    // create a span for every nucleotide
+    // in our DNA strand, so that we can
+    // format with a CSS color
+    let out = [];
+    const fmt = {'A': "dna_a",
+                     'C': "dna_c",
+                     'G': "dna_g",
+                     'T': "dna_t"};
+    for (const nucleotide of dna) {
+      let myClass = fmt[nucleotide];
+      out.push(<span className={fmt[nucleotide]}>{nucleotide}</span>) 
+    }
+    return out;
+}
   
   export default function SpringModal(dna) {
-    console.log("Calling springmodal ", dna);
+    
     const classes = useStyles();
     let dna_short = dna.length > 10 ? dna.substring(0,7)+'...' : dna;
     const [open, setOpen] = React.useState(false);
@@ -70,7 +86,7 @@ const useStyles = makeStyles(theme => ({
 
     return (
       <div>
-        <div onClick={handleOpen}>
+        <div onClick={handleOpen} style={{cursor: 'pointer'}}>
           {dna_short}
         </div>
         <Modal
@@ -88,7 +104,7 @@ const useStyles = makeStyles(theme => ({
           <Fade in={open}>
             <div className={classes.paper}>
               <h2 id="spring-modal-title">Sequence</h2>
-              <p id="spring-modal-description">{dna}</p>
+              <p id="spring-modal-description">{prettyDNA(dna)}</p>
             </div>
           </Fade>
         </Modal>

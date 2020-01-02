@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from rest_framework import permissions, viewsets, generics, status
-from .serializers import SequenceSerializer
-from .models import Sequence
+from .serializers import DNA_SequenceSerializer
+from .models import DNA_Sequence
 
-class SequenceView(generics.ListCreateAPIView):
-    serializer_class = SequenceSerializer
-    queryset = Sequence.objects.all()
-# Create your views here.
+class DNA_SequenceView(generics.ListCreateAPIView):
+    serializer_class = DNA_SequenceSerializer
+    queryset = DNA_Sequence.objects.all()
+
+

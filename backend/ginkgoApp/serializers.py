@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from .models import Sequence
+from .models import DNA_Sequence
 
-
-class SequenceSerializer(serializers.ModelSerializer):
+class DNA_SequenceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sequence
+        model = DNA_Sequence
         fields = ['name', 'description', 'sequence']

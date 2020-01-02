@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
-import axios from 'axios'
-import './AddSequence.css'
+import axios from 'axios';
+import './AddSequence.css';
+import { Redirect } from 'react-router-dom';
+import {
+  FormControl,
+  TextField,
+  TextareaAutosize,
+  Button,
+  Card,
+  CardContent,
+  sizing
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: 200
+    }
+  }
+}));
 export default class AddSequence extends Component {
   constructor(props) {
     super(props);
@@ -8,84 +28,135 @@ export default class AddSequence extends Component {
       name: '',
       description: '',
       sequence: '',
+      redirect: false,
+      helperText: 'Enter Sequence',
+      error: false,
+      sequences: []
     };
   }
-  handleSubmit = event => {
-    console.log(this.state.name + 'this state')
-    event.preventDefault();
-    return axios
-      .post('http://localhost:8000/api/sequences/', {
-        name: this.state.name,
-        description: this.state.description,
-        sequence: this.state.sequence
-      }
-      )
-      .then(response => console.log(response))
-      .catch(err => console.log(err))
+  componentDidMount() {
+    return fetch('http://localhost:8000/api/sequences/')
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      })
+      .then(response => this.setState({ sequences: response }));
   }
+  handleSubmit = event => {
+    event.preventDefault();
+    let okay = true;
+    for (let i = 0; i < this.state.sequences.length; i++) {
+      if (this.state.sequences[i].sequence === this.state.sequence) {
+        okay = false
+        this.setState({
+          helperText: 'Sequence already exists',
+          error: true,
+          redirect: false
+        });
+        
+      } }
+      if (okay) {
+        return axios
+          .post(
+            'http://localhost:8000/api/sequences/',
+            {
+              name: this.state.name,
+              description: this.state.description,
+              sequence: this.state.sequence
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          )
+          .then(response => this.setState({ redirect: true }))
+          .catch(err => console.log(err));
+      }
+    }
+  
+  handleSequenceChange = event => {
+    var regex = /^[ACTG]+$/i;
+    if (!regex.test(event.target.value)) {
+      this.setState({
+        helperText: 'The sequence is invalid',
+        error: true
+      });
+    } else {
+      this.setState({
+        [event.target.name]: event.target.value,
+        helperText: 'Enter Sequence',
+        error: false
+      });
+    }
+  };
   handleInputChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
-
-  // handleSequenceChange = event => {
-  //   var regex = /(bdefhijklmnopqrsuvwxyz)/g
-  //   if (event.target.value.includes(regex) === true) {
-  //     console.log('nope!!!')
-  //   }else {
-  //     this.setState({
-  //       [event.target.name]: event.target.value
-  //     })
-  //   }
-
-  // }
+  handleCancel = event => {
+    this.setState({
+      redirect: true
+    })
+  }
   render() {
+    if (this.state.redirect === true) {
+      return <Redirect to='/' />;
+    }
     return (
-      <div className='form'>
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <div>
-              <label>Sequence Name: </label>
-              <br/>
-              <input
-                type='text'
-                className='form'
-                name='name'
-              
-                onChange={this.handleInputChange}
-              />
+      <div className='fullForm'>
+        <form className={useStyles.root} noValidate autoComplete='off'>
+          <div className='textField'>
+            <TextField
+              required
+              id='name'
+              fullWidth
+              name='name'
+              onChange={this.handleInputChange}
+              label='Name'
+              helperText='Enter sequence name'
+            />
+          </div>
+          <div className='textField'>
+            <TextField
+              required
+              id='description'
+              fullWidth
+              name='description'
+              label='Description'
+              onChange={this.handleInputChange}
+              helperText='Enter sequence description'
+            />
+          </div>
+          <div className='textField'>
+            <TextField
+              required
+              id='sequence'
+              multiline
+              rowsMax='10'
+              fullWidth
+              name='sequence'
+              label='Sequence'
+              onChange={this.handleSequenceChange}
+              helperText={this.state.helperText}
+              error={this.state.error}
+            />
+          </div>
+          <div className='buttons'>
+            <div className='createButton' onClick={this.handleCancel}>
+          <Button variant='contained' color='secondary' style={{marginRight: 10}}>
+              Cancel
+            </Button>
             </div>
-
-            <div>
-            <label>Sequence Description: </label>
-              <br/>
-              <input
-                type='text'
-                className='form'
-                name='description'
-                
-                onChange={this.handleInputChange}
-              />
-            </div>
-            <div>
-            <label>Sequence: </label>
-              <br/>
-              <input
-                type='text'
-                className='form'
-                name='sequence'
-           
-                onChange={this.handleSequenceChange}
-              />
-            </div>
-            <div>
-              <button type='submit' onClick={this.handleSubmit}>
-                Create
-              </button>
-            </div>
-          </form>
-        </div>
+          <div onClick={this.handleSubmit} className='createButton'>
+         
+            <Button variant='contained' color='primary'>
+              Create
+            </Button>
+          </div>
+          </div>
+        </form>
       </div>
     );
   }

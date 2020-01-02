@@ -3,19 +3,8 @@ import './MySequences.css';
 import ReactDataGrid from 'react-data-grid';
 import Search from '../Search'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SpringModal from '../SpringModal';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const DNAFormatter = ({ value }) => {
-  return SpringModal(value);
-  return <SpringModal text={value} />;
-};
-
-const columns = [
-  { key: 'name', name: 'Name', editable: true, sortable: true, filterable: true },
-  { key: 'description', name: 'Description', editable: true },
-  { key: 'sequence', name: 'Sequence', editable: true, formatter: DNAFormatter }
-];
 
 export default class MySequences extends Component {
   constructor(props) {
@@ -57,15 +46,6 @@ export default class MySequences extends Component {
     return (
       <div>
           <Search content={this.state.sequences}/>
-        <div>
-        <ReactDataGrid
-          columns={columns}
-          rowGetter={i => this.state.sequences[i]}
-          rowsCount={3}
-          
-        />
-        </div>
-       
       </div>
     );
   }

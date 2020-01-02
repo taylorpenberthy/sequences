@@ -5,6 +5,7 @@ import './App.css';
 import AddSequence from './AddSequence/AddSequence'
 import Sequences from './Sequences/Sequences'
 import MySequences from './MySequences/MySequences'
+import SeqLogo from './SeqLogo1.png'
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -16,23 +17,12 @@ export default class App extends Component {
     return (
       <div>
         <div>
-        <nav>
-          <Link to='/'>
-            <h2>Home</h2>
-          </Link>
-          <Link to ='/new'>
-            <h2>Add Sequence</h2>
-          </Link>
-          <Link to ='/sequences'>
-            <h2>My Sequences</h2>
-          </Link>
-        </nav>
+        <img src={SeqLogo} className='logo'></img>
         </div>
         <main>
           <Switch>
-            <Route exact path='/' component={Sequences}/>
+            <Route exact path='/' component={MySequences}/>
             <Route path='/new' component={AddSequence}/>
-            <Route exact path='/sequences' component={MySequences}/>
           </Switch>
         </main>
       </div>
