@@ -17,6 +17,8 @@ def validateSeq(seq):
     return pattern.match(seq) != None
     
 # Store the DNA uploaded in a readable way consistent with our table and initial data
+# Track sequences that are (1) new, (2) duplicates, and (3) badly formatted & rejected
+# Return a JSON structure with arrays of names for (1) new, (2) dup and (3) bad
 def storeDNA(dnaSpec):
     stats = {'new': [], 'dup': [], 'bad': []}
     dna = dnaSpec['sequences']
@@ -40,6 +42,7 @@ def storeDNA(dnaSpec):
     return stats
 
 # disables CSRF protection for our post request
+# production needs better security with accounts, etc.
 @csrf_exempt
 def upload(request):
     json_response = {'error': 'what are you doing?'}
@@ -53,12 +56,13 @@ def upload(request):
     json_str = JSONRenderer().render(json_response)
     return HttpResponse(json_str, content_type='application/json')
 
+# Map from our data structure to the required JSON formatting
 def reformat_dna(dna):
     return {'sequenceName': dna['name'], 'sequenceDescription': dna['description'], 'sequence': dna['sequence']}
         
 def download(request):
     #
-    # DJango imposes their will.
+    # Django imposes their will.
     #
     # We first ask for a lazy query that will find all objects.
     # We then evaluate the query by turning it into a list

@@ -5,9 +5,12 @@ import FileInput from 'react-simple-file-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { URL } from './config';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 var allowedFileTypes = ['application/json'];
+// Code adapted from https://www.npmjs.com/package/react-simple-file-input
+// We use a FileInput component to access the contents of a JSON sequence
+// file which we upload to our server
 
+// Check to make sure file is correct type before upload
 function fileIsIncorrectFiletype(file) {
   if (allowedFileTypes.indexOf(file.type) === -1) {
     return true;
@@ -16,6 +19,18 @@ function fileIsIncorrectFiletype(file) {
   }
 }
 
+// There's a bit of magic here.  
+//
+// The low level Material UI CSS was used to 'fake' a 
+// Material UI button as a span.
+//
+// This span is the label for a hidden FileInput component.  
+//
+// When you click on the label, the input component is activated
+// and it appears as though you clicked on a button.
+//
+// There's a subtle difference here, as we lose some fading 
+// animation from Material UI but this seems to work for now.
 export default class Upload extends Component {
   constructor(props, context) {
     super(props, context);
@@ -25,12 +40,11 @@ export default class Upload extends Component {
       parentState: props.state
     };
   }
-  
-  uploader = () => {
-    const data = new FormData();
-    data.append('myFile', this.state.sel);
-  };
 
+
+  // Generate input field and fake button for upload.
+  // The CSS class names came from inspecting a Material UI 
+  // button.
   render() {
     return (
       <div>
@@ -68,6 +82,7 @@ export default class Upload extends Component {
     );
   }
 
+  // Basic handlers required by FileInput component 
   cancelButtonClicked = () => {
     return this.state.cancelButtonClicked;
   };
@@ -90,6 +105,8 @@ export default class Upload extends Component {
     });
   };
 
+  // Generate a simple alert string given JSON information from our 
+  // server in terms of sequences added, skipped, or rejected.
   formatOK = answer => {
     let info = answer['ok'];
     let out = 'Database updated: ';
@@ -105,6 +122,10 @@ export default class Upload extends Component {
     return out;
   };
 
+  // This is our work horse.  Once a file is selected,
+  // handleFileSelected uses a simple react form and 
+  // specifies the file name as 'myfile' attribute.  Our server
+  // expects to see this.
   handleFileSelected = (event, file) => {
     const data = new FormData();
     data.append('myfile', file);

@@ -3,7 +3,9 @@ import './MySequences.css';
 import Search from '../Search';
 import { URL } from '../config.js';
 
-// Fetch existing DNA sequences from our storage and pass them as props to Search component
+// MySequences is our root component for the searchable table
+// We first grab all the sequences, then we hand them to a Search component 
+// that handles everything else
 export default class MySequences extends Component {
   constructor(props) {
     super(props);

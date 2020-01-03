@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// React Component for adding sequences view 
 export default class AddSequence extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,10 @@ export default class AddSequence extends Component {
       sequences: []
     };
   }
+
   // Grab existing sequences to be checked against when we try to add new sequence
+  // Normally I'd do this in the backend, but we are focusing on frontend for this
+  // project where we can fit the browser list in memory.
   componentDidMount() {
     return fetch(URL + 'sequences/')
       .then(response => response.json())
@@ -37,6 +41,9 @@ export default class AddSequence extends Component {
       })
       .then(response => this.setState({ sequences: response }));
   }
+
+  // Post a JSON structure to sequences endpoint, which will add a new sequence
+  // Catch duplicate sequence
   handleSubmit = event => {
     event.preventDefault();
     let okay = true;
@@ -70,7 +77,7 @@ export default class AddSequence extends Component {
     }
   };
 
-  // For each character entry on sequence field, check to make sure characters are DNA letters
+  // For each character entry in sequence field, check to make sure characters are DNA letters
   handleSequenceChange = event => {
     var regex = /^[ACTG]+$/i;
     if (!regex.test(event.target.value)) {
@@ -87,16 +94,21 @@ export default class AddSequence extends Component {
     }
   };
 
+  // In React, we store changes a character at a time 
   handleInputChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
+
+  // On cancel, throw redirect flag.  React will catch this which we use to redirect to table
   handleCancel = event => {
     this.setState({
       redirect: true
     });
   };
+
+  // Generate our form or redirect to table
   render() {
     if (this.state.redirect === true) {
       return <Redirect to='/' />;

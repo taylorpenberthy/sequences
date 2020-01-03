@@ -5,8 +5,13 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import { useSpring, animated } from 'react-spring/web.cjs';
 import './App.css';
-// https://material-ui.com/components/modal/
 
+// Code adapted from  https://material-ui.com/components/modal/
+// This code creates a popup modal and greys out the screen
+// which can be dismissed by clicking elsewhere on the screen or
+// hitting escape
+
+// Basic CSS for modal and background
 const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
@@ -25,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// Animates the modal for the DNA sequences 
+// Animates the modal
 const Fade = React.forwardRef(function Fade(props, ref) {
   const { in: open, children, onEnter, onExited, ...other } = props;
   const style = useSpring({
@@ -57,10 +62,10 @@ Fade.propTypes = {
   onExited: PropTypes.func
 };
 
+// Create a span for every nucleotide
+// in our DNA strand, so that we can
+// format with a CSS color
 const prettyDNA = dna => {
-  // create a span for every nucleotide
-  // in our DNA strand, so that we can
-  // format with a CSS color
   let out = [];
   const fmt = { A: 'dna_a', C: 'dna_c', G: 'dna_g', T: 'dna_t' };
   for (const nucleotide of dna) {
@@ -69,6 +74,7 @@ const prettyDNA = dna => {
   return out;
 };
 
+// Main driver for popup modal
 export default function SpringModal(dna) {
   const classes = useStyles();
   // Truncate DNA for display on table

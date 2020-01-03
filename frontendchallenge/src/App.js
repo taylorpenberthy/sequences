@@ -6,6 +6,9 @@ import AddSequence from './AddSequence/AddSequence';
 import MySequences from './MySequences/MySequences';
 import SeqLogo from './SeqLogo1.png';
 
+
+// Our main App switches between a table component (MySequences) 
+// and a form component (AddSequence) using React Router
 export default class App extends Component {
   constructor(props) {
     super(props);
