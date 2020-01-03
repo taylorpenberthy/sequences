@@ -6,6 +6,7 @@
 - In the ```frontendchallenge``` directory type the following:
     - ```npm install```
     - ```npm start``` 
+    - Go to ```localhost:3000``` if you are not automatically redirected
 
 ## About
 
