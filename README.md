@@ -3,9 +3,9 @@
 ## TLDR
 
 - Clone directory
-- In the frontendchallenge directory type the following:
-    - npm install
-    - npm start 
+- In the ```frontendchallenge``` directory type the following:
+    - ```npm install```
+    - ```npm start``` 
 
 ## About
 
