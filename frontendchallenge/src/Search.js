@@ -34,7 +34,8 @@ class Search extends Component {
       query: '',
       initialRows: props.content,
       rows: props.content.slice(0),
-      redirect: false
+      redirect: false,
+      refresh: false
     };
   }
   handleChange = event => {
@@ -92,11 +93,6 @@ class Search extends Component {
     );
   };
 
-  uploadFile = () => {
-      console.log('gotem')
-      return null
-  }
-
   downloadFile = () => {
       console.log('download')
       return fetch(URL + 'download/')
@@ -121,12 +117,12 @@ class Search extends Component {
       {if (this.state.redirect === true) {
         return <Redirect to='/new' />;
       }}
+      console.log('refreshing', this.state.refresh)
     return (
       <div>
         <form>
           <div className='topbar'>
-            
-            <Upload className='icon' style={{marginLeft: 10, marginBottom: 5, backgroundColor: 'white', float: 'right', position: 'absolute'}} />
+            <Upload className='icon' style={{marginLeft: 10, marginBottom: 5, backgroundColor: 'white', float: 'right', position: 'absolute'}} state={this.state}/>
             <Button
               variant='contained'
               color='default'

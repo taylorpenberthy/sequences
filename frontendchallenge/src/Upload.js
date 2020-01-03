@@ -22,7 +22,8 @@ export default class Upload extends Component {
 
     this.state = {
       cancelButtonClicked: false,
-      refresh: false
+      redirect: false,
+      parentState: props.state
     };
   }
   uploader = () => {
@@ -102,12 +103,13 @@ export default class Upload extends Component {
           let answer = res.data;
           if (answer['ok']) {
               alert('Success!')
-              console.log("Success!  "+answer['ok']);
+            
+              this.forceUpdate()
           } 
           else {
               alert('Error Uploading: ' + answer['error'])
             }
-          this.setState({refresh: !this.state.refresh});
+          
         })
     
     };

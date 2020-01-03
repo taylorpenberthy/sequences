@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import {Link, Route, Switch} from 'react-router-dom'
 import './App.css';
 import AddSequence from './AddSequence/AddSequence'
-import Sequences from './Sequences/Sequences'
 import MySequences from './MySequences/MySequences'
 import SeqLogo from './SeqLogo1.png'
 import * as config from './config.js' 
