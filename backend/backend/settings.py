@@ -12,23 +12,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
-from secrets import * 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+ 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = '5l9^yd4m(pk5^1jq^3=_n#ee4*0fdh*t))b^lm-jm8k5d1cwq_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-
-
-
+ALLOWED_HOSTS = ['*', 'seqbackend.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +40,7 @@ INSTALLED_APPS = [
     'ginkgoApp'
 ]
 
+SITE_ID = 1
 CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
@@ -82,7 +79,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-ALLOWED_HOSTS = ['*', 'sequencebackend.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
@@ -92,7 +89,7 @@ DATABASES = {
 }
 
 import dj_database_url 
-prod_db  =  dj_database_url.config(conn_max_age=500)
+prod_db  =  dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(prod_db)
 
 # Password validation

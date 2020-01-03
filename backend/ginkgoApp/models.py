@@ -8,3 +8,4 @@ class DNA_Sequence(models.Model):
 
     def __str__(self):
         return self.name
+
