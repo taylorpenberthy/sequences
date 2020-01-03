@@ -90,6 +90,23 @@ export default class Upload extends Component {
     });
   };
 
+  formatOK = (answer) => {
+      console.log("Got answer");
+      console.log(answer);
+          let info = answer['ok'];
+          let out = "Database updated: "
+          if (info['new'].length > 0) {
+              out += "added "+info['new'].length+" sequences ";
+          }
+          if (info['dup'].length > 0) {
+              out += " skipped "+info['dup'].length+" duplicate(s)"
+          }
+          if (info['bad'].length > 0) {
+              out += " rejected "+info['bad'].length+" sequences(s)";
+          }
+          return out
+        };
+
   handleFileSelected = (event, file) => {
     const data = new FormData();
     data.append('myfile', file);
@@ -102,14 +119,12 @@ export default class Upload extends Component {
       .then(res => {
           let answer = res.data;
           if (answer['ok']) {
-              alert('Success!')
-            
+              alert(this.formatOK(answer));
               this.forceUpdate()
           } 
           else {
               alert('Error Uploading: ' + answer['error'])
-            }
-          
+          }
         })
     
     };

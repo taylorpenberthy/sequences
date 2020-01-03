@@ -16,6 +16,7 @@ def validateSeq(seq):
     return pattern.match(seq) != None
     
 def storeDNA(dnaSpec):
+    stats = {'new': [], 'dup': [], 'bad': []}
     dna = dnaSpec['sequences']
     for item in dna:
         j_name = item['sequenceName']
@@ -23,16 +24,19 @@ def storeDNA(dnaSpec):
         j_seq = item['sequence']
         try:
             d = DNA_Sequence.objects.get(name=j_name)
+            stats['dup'].append(j_name)
             print("Already have " +j_name)
         except:
             # weak validation, but its a start
             # we're not looking for SQL injection etc. in the name, desc
             if validateSeq(j_seq):
                 d_new = DNA_Sequence.objects.create(name=j_name, description=j_description, sequence=j_seq)
+                stats['new'].append(j_name)
                 print('adding DNA' + j_name)
             else: 
+                stats['bad'].append(j_name)
                 print('rejecting DNA' + j_name)
-    return 'Database updated'
+    return stats
 
 @csrf_exempt
 def upload(request):

@@ -27,6 +27,7 @@ const columns = [
   { key: 'description', name: 'Description', editable: true },
   { key: 'sequence', name: 'Sequence', editable: true, formatter: DNAFormatter }
 ];
+
 class Search extends Component {
   constructor(props) {
     super(props);
