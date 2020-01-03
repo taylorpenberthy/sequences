@@ -50,6 +50,7 @@ Pygments==2.4.2
 pylint==2.4.3
 pyrsistent==0.15.5
 python-dateutil==2.8.0
+python-decouple==3.1
 pytz==2019.3
 pyzmq==18.1.0
 qtconsole==4.5.5

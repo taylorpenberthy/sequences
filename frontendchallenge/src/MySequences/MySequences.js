@@ -1,11 +1,9 @@
 import React, { Component, useState } from 'react';
 import './MySequences.css';
-import ReactDataGrid from 'react-data-grid';
-import Search from '../Search'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { URL }from '../config.js' 
+import Search from '../Search';
+import { URL } from '../config.js';
 
+// Fetch existing DNA sequences from our storage and pass them as props to Search component
 export default class MySequences extends Component {
   constructor(props) {
     super(props);
@@ -27,25 +25,15 @@ export default class MySequences extends Component {
         })
       );
   }
-  handleClick = event => {
-    this.setState({
-      show: true
-    });
-  };
-  hideModal = () => {
-    this.setState({ show: false });
-  };
 
   truncate = string => {
     return string.length > 10 ? string.substring(0, 7) + '...' : string;
   };
 
-  
-
   render() {
     return (
       <div>
-          <Search content={this.state.sequences}/>
+        <Search content={this.state.sequences} />
       </div>
     );
   }

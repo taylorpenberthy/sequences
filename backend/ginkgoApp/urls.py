@@ -11,10 +11,12 @@ from .serializers import DNA_SequenceSerializer
 from rest_framework.renderers import JSONRenderer
 from django.views.decorators.csrf import csrf_exempt
 
+# Regex to validate that sequence includes DNA letters
 def validateSeq(seq):
     pattern = re.compile('^[ACTG]+$', re.IGNORECASE)
     return pattern.match(seq) != None
     
+# Store the DNA uploaded in a readable way consistent with our table and initial data
 def storeDNA(dnaSpec):
     stats = {'new': [], 'dup': [], 'bad': []}
     dna = dnaSpec['sequences']
@@ -23,12 +25,11 @@ def storeDNA(dnaSpec):
         j_description = item['sequenceDescription']
         j_seq = item['sequence']
         try:
+            # checks if the sequence name already exists in our storage
             d = DNA_Sequence.objects.get(name=j_name)
             stats['dup'].append(j_name)
             print("Already have " +j_name)
         except:
-            # weak validation, but its a start
-            # we're not looking for SQL injection etc. in the name, desc
             if validateSeq(j_seq):
                 d_new = DNA_Sequence.objects.create(name=j_name, description=j_description, sequence=j_seq)
                 stats['new'].append(j_name)
@@ -38,10 +39,12 @@ def storeDNA(dnaSpec):
                 print('rejecting DNA' + j_name)
     return stats
 
+# disables CSRF protection for our post request
 @csrf_exempt
 def upload(request):
     json_response = {'error': 'what are you doing?'}
     if request.method == 'POST' and request.FILES['myfile']:
+        # json.loads is an encoder to read the files 
         mydata = json.loads(request.FILES['myfile'].file.read())
         try:
             json_response = {'ok': storeDNA(mydata)}
@@ -63,7 +66,7 @@ def download(request):
     # We pass this raw json to a JSONRenderer to get one string.
     # We pass this string to a browser as a response to their HTTP request.
     #
-    # Don't forget many=True.  Why?  Why not.
+    # Don't forget many=True!
     #
     seq_query = DNA_Sequence.objects.all()
     serializer = DNA_SequenceSerializer(list(seq_query), many=True)

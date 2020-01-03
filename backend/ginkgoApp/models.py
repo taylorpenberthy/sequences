@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+# Stores DNA Sequences
 class DNA_Sequence(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()

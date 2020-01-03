@@ -2,17 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './AddSequence.css';
 import { Redirect } from 'react-router-dom';
-import {
-  FormControl,
-  TextField,
-  TextareaAutosize,
-  Button,
-  Card,
-  CardContent,
-  sizing
-} from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { URL } from '../config.js' 
+import { URL } from '../config.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
+
 export default class AddSequence extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +28,7 @@ export default class AddSequence extends Component {
       sequences: []
     };
   }
+  // Grab existing sequences to be checked against when we try to add new sequence
   componentDidMount() {
     return fetch(URL + 'sequences/')
       .then(response => response.json())
@@ -48,34 +42,35 @@ export default class AddSequence extends Component {
     let okay = true;
     for (let i = 0; i < this.state.sequences.length; i++) {
       if (this.state.sequences[i].sequence === this.state.sequence) {
-        okay = false
+        okay = false;
         this.setState({
           helperText: 'Sequence already exists',
           error: true,
           redirect: false
         });
-        
-      } }
-      if (okay) {
-        return axios
-          .post(
-            (URL + 'sequences/'),
-            {
-              name: this.state.name,
-              description: this.state.description,
-              sequence: this.state.sequence
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          )
-          .then(response => this.setState({ redirect: true }))
-          .catch(err => console.log(err));
       }
     }
-  
+    if (okay) {
+      return axios
+        .post(
+          URL + 'sequences/',
+          {
+            name: this.state.name,
+            description: this.state.description,
+            sequence: this.state.sequence
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        .then(response => this.setState({ redirect: true }))
+        .catch(err => console.log(err));
+    }
+  };
+
+  // For each character entry on sequence field, check to make sure characters are DNA letters
   handleSequenceChange = event => {
     var regex = /^[ACTG]+$/i;
     if (!regex.test(event.target.value)) {
@@ -91,6 +86,7 @@ export default class AddSequence extends Component {
       });
     }
   };
+
   handleInputChange = event => {
     this.setState({
       [event.target.name]: event.target.value
@@ -99,8 +95,8 @@ export default class AddSequence extends Component {
   handleCancel = event => {
     this.setState({
       redirect: true
-    })
-  }
+    });
+  };
   render() {
     if (this.state.redirect === true) {
       return <Redirect to='/' />;
@@ -146,16 +142,19 @@ export default class AddSequence extends Component {
           </div>
           <div className='buttons'>
             <div className='createButton' onClick={this.handleCancel}>
-          <Button variant='contained' color='secondary' style={{marginRight: 10}}>
-              Cancel
-            </Button>
+              <Button
+                variant='contained'
+                color='secondary'
+                style={{ marginRight: 10 }}
+              >
+                Cancel
+              </Button>
             </div>
-          <div onClick={this.handleSubmit} className='createButton'>
-         
-            <Button variant='contained' color='primary'>
-              Create
-            </Button>
-          </div>
+            <div onClick={this.handleSubmit} className='createButton'>
+              <Button variant='contained' color='primary'>
+                Create
+              </Button>
+            </div>
           </div>
         </form>
       </div>
