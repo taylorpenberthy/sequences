@@ -1,6 +1,6 @@
 ## Sequences
 
-## TLDR
+## TL;DR
 
 - Clone directory
 - In the ```frontendchallenge``` directory type the following:
