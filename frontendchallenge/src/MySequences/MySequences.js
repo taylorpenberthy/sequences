@@ -4,7 +4,7 @@ import ReactDataGrid from 'react-data-grid';
 import Search from '../Search'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import * as config from './config.js' 
+import { URL }from '../config.js' 
 
 export default class MySequences extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ export default class MySequences extends Component {
     };
   }
   componentDidMount() {
-    return fetch(config.URL)
+    return fetch(URL + 'sequences/')
       .then(res => res.json())
       .then(response =>
         this.setState({

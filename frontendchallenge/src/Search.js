@@ -9,6 +9,8 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'
 import { Redirect } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {URL} from './config.js'
+import Upload from './Upload'
 import { faUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
 const DNAFormatter = ({ value }) => {
   return SpringModal(value);
@@ -97,7 +99,7 @@ class Search extends Component {
 
   downloadFile = () => {
       console.log('download')
-      return fetch('http://localhost:8000/api/download/')
+      return fetch(URL + 'download/')
       .then(response => {
         response.blob().then(blob => {
             let url = window.URL.createObjectURL(blob);
@@ -123,28 +125,8 @@ class Search extends Component {
       <div>
         <form>
           <div className='topbar'>
-            <input
-              placeholder='Search'
-              className='searchbox'
-              onChange={event => this.handleChange(event)}
-              onKeyPress={this.props.onKeyPress}
-              value={this.props.query}
-            />
-           
-            <span onClick={this.uploadFile}>
-           
-            <Button
-              variant='contained'
-              color='default'
-              className='icon'
-             
-              style={{marginLeft: 10, marginBottom: 5, backgroundColor: 'white', float: 'right'}}
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload
-            </Button>
-            </span>
-           
+            
+            <Upload className='icon' style={{marginLeft: 10, marginBottom: 5, backgroundColor: 'white', float: 'right', position: 'absolute'}} />
             <Button
               variant='contained'
               color='default'
@@ -155,6 +137,7 @@ class Search extends Component {
             >
               Download
             </Button>
+         
             <span onClick={this.goToAdd}>
             <Button
               variant='contained'
@@ -166,6 +149,13 @@ class Search extends Component {
               Add Sequence
             </Button>
             </span>
+            <input
+              placeholder='Search'
+              className='searchbox'
+              onChange={event => this.handleChange(event)}
+              onKeyPress={this.props.onKeyPress}
+              value={this.props.query}
+            />
           </div>
         </form>
         {this.showSequences(this.props.content)}

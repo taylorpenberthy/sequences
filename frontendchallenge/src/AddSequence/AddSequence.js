@@ -12,7 +12,7 @@ import {
   sizing
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import * as config from './config.js' 
+import { URL } from '../config.js' 
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +36,7 @@ export default class AddSequence extends Component {
     };
   }
   componentDidMount() {
-    return fetch(config.URL)
+    return fetch(URL + 'sequences/')
       .then(response => response.json())
       .then(data => {
         return data;
@@ -59,7 +59,7 @@ export default class AddSequence extends Component {
       if (okay) {
         return axios
           .post(
-            config.URL,
+            (URL + 'sequences/'),
             {
               name: this.state.name,
               description: this.state.description,
